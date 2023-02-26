@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course|page</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+    
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
+                    <div class="col-6">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email Id</th>
+                                <th>Marks</th>
+                                <th>Remarks</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                               {% if reports %}
+                                {% for report in reports %}
+                                <tr>
+                                    <td>{{report.id}}</td>
+                                    <td>{{report.email}}</td>
+                                    <td>{{report.marks}}</td>
+                                    <td>{{report.remarks}}</td>
+
+                                    
+                                </tr>
+                                {% endfor %}
+                               {% else %}
+                               <h1>No Submissions</h1>
+                               {% endif %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-6">
+                        <form action="{% url 'evalution' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="hidden" name="course_id" value="{{course.id}}">
+                                <div class="form-group">
+                                    <div class="form-florating mb-3">
+                                        <select name="email" class="form-select" id="exampleSelect1">
+                                            <option selected>Choose email </option>
+                                            {% if data %}
+                                            {% for item in data %}
+                                            <option>{{item.email}}</option>
+                                            {% endfor %}
+                                            {% else %}
+                                            <option>No</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                   
+                                    <div class="form-floating mb-3">
+                                        <input type="number" class="form-control" name="marks"  placeholder="Marks">
+                                        <label for="floatingInput">Marks</label>
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <textarea name="remarks" class="form-control" id="exampleTextarea" rows="3" placeholder="Please enter your remarks"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
+<!-- {% if course %}
+    <h1>Hi</h1>
+    {% else %}
+    <h2>Bye</h2>
+    {% endif %} -->
